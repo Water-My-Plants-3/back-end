@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 const usersRouter = require('../users/users-router');
+const plantsRouter = require('../plants/plants-router');
 
 const server = express();
 
@@ -15,5 +16,6 @@ server.get('/', (req, res) => {
 });
 
 server.use('/api/users', usersRouter);
+server.use('/api/plants', plantsRouter);
 
 module.exports = server;

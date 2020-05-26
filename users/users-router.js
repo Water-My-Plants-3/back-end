@@ -36,6 +36,15 @@ router.post('/login', (req, res) => {
     });
 });
 
+router.get('/', (req, res) => {
+  console.log('token', req.decodedToken);
+  Users.find()
+    .then((users) => {
+      res.status(200).json(users);
+    })
+    .catch((err) => res.send(err));
+});
+
 router.get('/:id', (req, res) => {
   User.findbyid(req.params.id)
     .then((user) => {
@@ -46,8 +55,24 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.put('/:id', auth, (req, res) => {
-  // this is what i need to work on next
-});
+// router.put('/:id', auth, (req, res) => {
+//   const { username, password } = req.body;
+
+//   User.findbyid(id)
+//     .then((found) => {
+//       if (found && bcrypt.compareSync(password, found.password))
+//         ? User.update(id, changes).then((updateUser) => {
+//             res.status(200).json({
+//               message: `successfully updated user ID: ${id}`,
+//               updateUser,
+//             });
+//           })
+//         : res.status(404).json({ message: 'no user found' });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).json({ message: err.message });
+//     });
+// });
 
 module.exports = router;
