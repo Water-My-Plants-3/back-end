@@ -22,6 +22,7 @@ router.post('/login', (req, res) => {
   User.findby({ username })
     .first()
     .then((found) => {
+      console.log('hey', found);
       if (found && bcrypt.compareSync(password, found.password)) {
         const token = makeToken(found);
         res.status(200).json({ message: 'welcome', payload: token });
@@ -37,8 +38,7 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-  console.log('token', req.decodedToken);
-  Users.find()
+  User.find()
     .then((users) => {
       res.status(200).json(users);
     })
@@ -55,24 +55,27 @@ router.get('/:id', (req, res) => {
     });
 });
 
-// router.put('/:id', auth, (req, res) => {
-//   const { username, password } = req.body;
+router.put('/:id', auth, (req, res) => {
+  const { password, new_password, phone } = req.body;
 
-//   User.findbyid(id)
-//     .then((found) => {
-//       if (found && bcrypt.compareSync(password, found.password))
-//         ? User.update(id, changes).then((updateUser) => {
-//             res.status(200).json({
-//               message: `successfully updated user ID: ${id}`,
-//               updateUser,
-//             });
-//           })
-//         : res.status(404).json({ message: 'no user found' });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500).json({ message: err.message });
-//     });
-// });
+  User.findbyid(req.params.id)
+    .then((found) => {
+      if (found && bcrypt.compareSync(password, found.password)) {
+        const hash = bcrypt.hashSync(new_password, 12);
+        User.update(req.params.id, {
+          password: hash,
+          phone,
+        }).then((updatedUser) => {
+          res.status(200).json({ message: 'updated user info', updatedUser });
+        });
+      } else {
+        res.status(500).json({ err: 'unable to update password/phone' });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: err.message });
+    });
+});
 
 module.exports = router;

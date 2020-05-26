@@ -12,9 +12,9 @@ router.get('/user/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { id } = req.params;
-  const newPlant = req.body;
-  Plants.add(newPlant, id)
+  //   const { id } = req.params;
+  //   const newPlant = req.body;
+  Plants.add(req.params.body.newPlant, req.params.id)
     .then((plant) => {
       res.status(201).json({ created: plant });
     })

@@ -6,6 +6,17 @@ async function add(user) {
   return findbyid(id);
 }
 
+function find() {
+  return db('users').select(
+    'id',
+    'first_name',
+    'last_name',
+    'username',
+    'password',
+    'phone'
+  );
+}
+
 function findby(filter) {
   return db('users').where(filter);
 }
@@ -14,13 +25,16 @@ function findbyid(id) {
   return db('users').where({ id }).first();
 }
 
-function update(id, changes) {
-  return db('users').where({ id }).update(changes);
+async function update(id, changes) {
+  await db('users').where({ id }).update(changes);
+
+  return findbyid(id);
 }
 
 module.exports = {
   add,
   findby,
   findbyid,
+  find,
   update,
 };

@@ -14,6 +14,10 @@ function findbyid(id) {
   return db('plants').where({ id }).first();
 }
 
+function findbyuser(user_id) {
+  return db('plants').where({ user_id }).first();
+}
+
 function update(id, changes) {
   return db('plants').where({ id }).update(changes);
 }
@@ -21,6 +25,7 @@ function update(id, changes) {
 module.exports = {
   add,
   findby,
+  findbyuser,
   findbyid,
   update,
 };
