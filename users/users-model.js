@@ -31,10 +31,15 @@ async function update(id, changes) {
   return findbyid(id);
 }
 
+function remove(id) {
+  return db('users').where(id).del();
+}
+
 module.exports = {
   add,
   findby,
   findbyid,
   find,
   update,
+  remove,
 };

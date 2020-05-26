@@ -19,10 +19,11 @@ exports.up = function (knex) {
         .notNullable()
         .unsigned()
         .references('id')
-        .inTable('users');
+        .inTable('users')
+        .onDelete('CASCADE');
     });
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists('users').dropTableIfExists('plants');
+  return knex.schema.dropTableIfExists('plants').dropTableIfExists('users');
 };
