@@ -14,12 +14,12 @@ router.get('/user/:id', (req, res) => {
 router.post('/', (req, res) => {
   //   const { id } = req.params;
   //   const newPlant = req.body;
-  Plants.add(req.params.body.newPlant, req.params.id)
+  Plants.add(req.body)
     .then((plant) => {
       res.status(201).json({ created: plant });
     })
     .catch((err) => {
-      res.status(500).json({ message: err.message });
+      res.status(500).json({ message: 'error' });
     });
 });
 

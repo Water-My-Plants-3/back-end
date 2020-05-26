@@ -15,17 +15,21 @@ function findbyid(id) {
 }
 
 function findbyuser(user_id) {
-  return db('plants').where({ user_id }).first();
+  return db('plants').where({ user_id });
 }
 
 function update(id, changes) {
   return db('plants').where({ id }).update(changes);
 }
 
+function remove(id) {
+  return db('plants').where(id).del();
+}
 module.exports = {
   add,
   findby,
   findbyuser,
   findbyid,
   update,
+  remove,
 };
