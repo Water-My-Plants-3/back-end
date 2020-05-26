@@ -16,7 +16,7 @@ server.get('/', (req, res) => {
   res.status(200).json({ message: `api is live` });
 });
 
-server.use('/api/users', auth, usersRouter);
-server.use('/api/plants', plantsRouter);
+server.use('/api/users', usersRouter);
+server.use('/api/plants', auth, plantsRouter);
 
 module.exports = server;
