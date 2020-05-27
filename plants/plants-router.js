@@ -23,4 +23,43 @@ router.post('/', (req, res) => {
     });
 });
 
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+  Plants.findbyid(id)
+    .then((plant) => {
+      plant
+        ? Plants.update(id, changes).then((updated) => {
+            res.status(200).json({
+              message: `successfully updated plant ID: ${id}`,
+            });
+          })
+        : res.status(404).json({
+            errorMessage: 'plant not found',
+          });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        errorMessage: error.message,
+      });
+    });
+});
+
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  Plants.remove({ id })
+    .then((deleted) => {
+      res
+        .status(200)
+        .json({ message: `plant ID: ${id} has been removed`, deleted });
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(500)
+        .json({ errorMessage: `cannot remove plant by ID: ${id}` });
+    });
+});
+
 module.exports = router;
